@@ -1,4 +1,4 @@
-Text-XLogfile
+Text-XLogfile 0.02
 
 Text::XLogfile is a small module designed to read and write xlogfiles.
 xlogfile is a simple line-based format, with structure similar to a hash.

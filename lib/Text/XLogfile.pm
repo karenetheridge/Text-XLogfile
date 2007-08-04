@@ -6,6 +6,7 @@ use base 'Exporter';
 use Carp;
 
 our @EXPORT_OK = qw(read_xlogfile parse_xlogline write_xlogfile make_xlogline);
+our %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 =head1 NAME
 

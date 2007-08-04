@@ -158,12 +158,12 @@ sub write_xlogfile
 
 =head2 make_xlogline HASHREF[, INTEGER] => STRING
 
-Takes a hash or hashref and turns it into an xlogline. The optional integer
-controls what the function will do when it faces one of three potential
-errors. A value of one will correct the error. A value of zero will cause an
-exception (this is the default). A value of negative one will ignore the error
-which is very likely to cause problems when you read the xlogfile back in
-(you may want this when know for sure that your hashref is fine).
+Takes a hashref and turns it into an xlogline. The optional integer controls
+what the function will do when it faces one of three potential errors. A value
+of one will correct the error. A value of zero will cause an exception (this is
+the default). A value of negative one will ignore the error which is very
+likely to cause problems when you read the xlogfile back in (you may want this
+when know for sure that your hashref is fine).
 
 The potential problems it will fix are:
 

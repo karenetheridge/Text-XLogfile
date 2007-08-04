@@ -1,0 +1,48 @@
+Text-XLogfile
+
+Text::XLogfile is a small module designed to read and write xlogfiles.
+xlogfile is a simple line-based format, with structure similar to a hash.
+Fields are separated by colons; (key, value) pairs are separated by an equals
+sign. The NetHack community uses xlogfiles.
+
+MAJOR CHANGES
+    0.01: first version
+
+INSTALLATION
+
+To install this module, run the following commands:
+
+    perl Makefile.PL
+    make
+    make test
+    make install
+
+
+SUPPORT AND DOCUMENTATION
+
+After installing, you can find documentation for this module with the perldoc
+command.
+
+    perldoc Text::XLogfile
+
+You can also look for information at:
+
+    Search CPAN
+        http://search.cpan.org/dist/Text-XLogfile
+
+    CPAN Request Tracker:
+        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Text-XLogfile
+
+    AnnoCPAN, annotated CPAN documentation:
+        http://annocpan.org/dist/Text-XLogfile
+
+    CPAN Ratings:
+        http://cpanratings.perl.org/d/Text-XLogfile
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2007 Shawn M Moore
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+

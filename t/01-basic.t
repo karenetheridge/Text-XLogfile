@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 use Test::More tests => 2;
-use Text::XLogfile qw(parse_xlogline make_xlogline);
+use Text::XLogfile ':all';
 
 my $xlogline = 'foo=bar:baz=quux:deli=cious';
 

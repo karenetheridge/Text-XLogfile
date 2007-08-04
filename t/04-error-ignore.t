@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 use Test::More tests => 10;
-use Text::XLogfile qw(parse_xlogline make_xlogline);
+use Text::XLogfile ':all';
 
 my $equals_key    = { 'a=b'  => 1 };
 my $colon_key     = { 'a:b'  => 1 };

@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 use Test::More tests => 2;
-use Text::XLogfile qw(read_xlogfile write_xlogfile parse_xlogline);
+use Text::XLogfile ':all';
 use File::Temp qw/tempfile/;
 
 my @xlogfile =

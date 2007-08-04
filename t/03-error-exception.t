@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 use Test::More tests => 6;
-use Text::XLogfile qw(parse_xlogline make_xlogline);
+use Text::XLogfile ':all';
 
 my $xlogline = 'a=b:c:d=e';
 

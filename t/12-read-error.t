@@ -1,7 +1,7 @@
 #!perl -T
 use strict;
 use warnings;
-use Test::More qw/no_plan/;
+use Test::More tests => 1;
 use Text::XLogfile qw(read_xlogfile write_xlogfile);
 use File::Temp qw/tempfile/;
 

@@ -28,9 +28,8 @@ our $VERSION = '0.02';
     for (@scores) { $_->{player} = lc $_->{player} }
     write_xlogfile(\@scores, "scores.xlogfile.new");
 
-    my $score = parse_xlogline($scores[0]);
     my $xlogline = make_xlogline($scores[0], -1);
-    $xlogline->{id} = 0;
+    my $score = parse_xlogline($xlogline);
     print "First place: $score->{player}\n";
     print "$xlogline\n";
 
@@ -52,11 +51,12 @@ This obviously corresponds to the following hash:
         gender   => 'Mal',
     }
 
-There's no quoting. Keys and values can be any non-colon characters. The first
-C<=> separates the key from the value (so in C<a=b=c>, the key is C<a>, and
-the value is C<b=c>. Colons are usually transliterated to underscores. Like a
-Perl hash, if multiple values have the same key, later values will overwrite
-earlier values. Here's something resembling the actual grammar:
+xlogfile supports no quoting. Keys and values may be any non-colon characters.
+The first C<=> separates the key from the value (so in C<a=b=c>, the key is
+C<a>, and the value is C<b=c>. Colons are usually transliterated to
+underscores. Like a Perl hash, if multiple values have the same key, later
+values will overwrite earlier values. Here's something resembling the actual
+grammar:
 
     xlogline <- field [: field]*
     field    <- key=value
@@ -102,7 +102,8 @@ sub read_xlogfile
 
 Takes a string and attempts to parse it as an xlogline. If a parse error
 occurs, C<undef> is returned. The only actual parse error is if there is a
-field with no C<=>. If there are no C<:>, the entire line is a single field.
+field with no C<=>. Lacking C<:> does not invalidate an xlogline; the entire
+line is a single field.
 
 =cut
 

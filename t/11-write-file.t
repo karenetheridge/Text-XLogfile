@@ -33,6 +33,6 @@ write_xlogfile(\@xlogfile, $filename);
 
 {
     my @people = read_xlogfile($filename);
-    is_deeply(\@people, \@xlogfile, "read_xlogfile appears to work 2/2");
+    is_deeply(\@people, \@xlogfile, "write_xlogfile appears to work 2/2");
 }
 

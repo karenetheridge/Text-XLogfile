@@ -10,7 +10,7 @@ our %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 =head1 NAME
 
-Text::XLogfile - reading and writing xlogfiles
+Text::XLogfile - read and write xlogfiles
 
 =head1 VERSION
 

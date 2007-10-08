@@ -14,11 +14,11 @@ Text::XLogfile - read and write xlogfiles
 
 =head1 VERSION
 
-Version 0.03 released 04 Aug 07
+Version 0.04 released ???
 
 =cut
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 =head1 SYNOPSIS
 

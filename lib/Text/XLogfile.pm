@@ -106,6 +106,9 @@ occurs, C<undef> is returned. The only actual parse error is if there is a
 field with no C<=>. Lacking C<:> does not invalidate an xlogline; the entire
 line is a single field.
 
+Since xlogfiles are an inherently line-based format, the input will be chomped.
+Any other newlines in the input will be incuded in the output.
+
 =cut
 
 sub parse_xlogline

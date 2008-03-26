@@ -283,34 +283,6 @@ Please report any bugs through RT: email
 C<bug-text-xlogfile at rt.cpan.org>, or browse to
 L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Text-XLogfile>.
 
-=head1 SUPPORT
-
-You can find this documentation for this module with the perldoc command.
-
-    perldoc Text::XLogfile
-
-You can also look for information at:
-
-=over 4
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/Text-XLogfile>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/Text-XLogfile>
-
-=item * RT: CPAN's request tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Text-XLogfile>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/Text-XLogfile>
-
-=back
-
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to Aardvark Joe for coming up with the xlogfile format. It's much

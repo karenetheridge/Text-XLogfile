@@ -69,8 +69,7 @@ grammar:
     value    <- [^:\n]*
 
 xlogfiles are used in the NetHack and Crawl communities. CSV is too
-ill-defined. XML is too heavyweight. YAML is multiline. JSON is feasible, but
-we've already chosen xlogfile.
+ill-defined. XML is too heavyweight. I'd say the same for YAML and JSON.
 
 =cut
 

@@ -1,5 +1,7 @@
 Revision history for Text-XLogfile
 
+0.05
+
 0.04    Wed Mar 26 00:51:03 2008
         Document that we chomp input on parse_xlogline.
         each_xlogline function

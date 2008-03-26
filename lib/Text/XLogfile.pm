@@ -14,7 +14,7 @@ Text::XLogfile - read and write xlogfiles
 
 =head1 VERSION
 
-Version 0.04 released ???
+Version 0.04 released 26 Mar 08
 
 =cut
 
@@ -290,7 +290,7 @@ better than NetHack's default logfile.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2007 Shawn M Moore.
+Copyright 2007-2008 Shawn M Moore.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

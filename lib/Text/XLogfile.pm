@@ -5,7 +5,7 @@ use warnings;
 use base 'Exporter';
 use Carp;
 
-our @EXPORT_OK = qw(read_xlogfile parse_xlogline write_xlogfile make_xlogline);
+our @EXPORT_OK = qw(read_xlogfile parse_xlogline each_xlogline write_xlogfile make_xlogline);
 our %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 =head1 NAME
@@ -32,6 +32,10 @@ our $VERSION = '0.04';
     my $score = parse_xlogline($xlogline);
     print "First place: $score->{player}\n";
     print "$xlogline\n";
+
+    each_xlogline("scores.xlogfile" => sub {
+        printf "%s (%d points) %s\n", $_->{player}, $_->{score}, $_->{death};
+    });
 
 =head1 xlogfile format
 
@@ -85,16 +89,9 @@ sub read_xlogfile
     my $filename = shift;
     my @entries;
 
-    open my $handle, '<', $filename
-        or Carp::croak "Unable to read $filename for reading: $!";
-
-    while (<$handle>)
-    {
-        push @entries, parse_xlogline($_) || {};
-    }
-
-    close $handle
-        or Carp::croak "Unable to close filehandle: $!";
+    each_xlogline($filename => sub {
+        push @entries, $_;
+    });
 
     return @entries;
 }
@@ -129,6 +126,32 @@ sub parse_xlogline
     }
 
     return $output;
+}
+
+=head2 each_xlogline FILENAME, CODE
+
+This runs the code reference for each xlogline in the given file. The xlogline
+will be passed in as a hashref and as C<$_>. If any IO error occurs in reading
+the file, an exception is thrown. If any error occurs in parsing an xlogline,
+then an empty hash will be used in its place.
+
+=cut
+
+sub each_xlogline {
+    my $filename = shift;
+    my $code = shift;
+
+    open my $handle, '<', $filename
+        or Carp::croak "Unable to read $filename for reading: $!";
+
+    while (<$handle>)
+    {
+        local $_ = parse_xlogline($_) || {};
+        $code->($_);
+    }
+
+    close $handle
+        or Carp::croak "Unable to close filehandle: $!";
 }
 
 =head2 write_xlogfile ARRAYREF OF HASHREFS, FILENAME

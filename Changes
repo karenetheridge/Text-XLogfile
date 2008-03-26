@@ -2,6 +2,7 @@ Revision history for Text-XLogfile
 
 0.04
         Document that we chomp input on parse_xlogline.
+        each_xlogline function
 
 0.03    Sat Aug  4 01:44:29 2007
         More minor fixes.

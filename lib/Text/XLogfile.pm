@@ -6,18 +6,132 @@ use Carp;
 
 our @EXPORT_OK = qw(read_xlogfile parse_xlogline each_xlogline write_xlogfile make_xlogline);
 our %EXPORT_TAGS = (all => \@EXPORT_OK);
+our $VERSION = '0.05';
+
+sub read_xlogfile
+{
+    my $filename = shift;
+    my @entries;
+
+    each_xlogline($filename => sub {
+        push @entries, $_;
+    });
+
+    return @entries;
+}
+
+sub parse_xlogline
+{
+    my $input = shift;
+    my $output = {};
+
+    chomp $input;
+
+    my @fields = split /:/, $input;
+
+    for my $field (@fields)
+    {
+        my ($key, $value) = split /=/, $field;
+        return if !defined($value); # no = found
+
+        $output->{$key} = $value;
+    }
+
+    return $output;
+}
+
+sub each_xlogline {
+    my $filename = shift;
+    my $code = shift;
+
+    open my $handle, '<', $filename
+        or Carp::croak "Unable to read $filename for reading: $!";
+
+    while (<$handle>)
+    {
+        local $_ = parse_xlogline($_) || {};
+        $code->($_);
+    }
+
+    close $handle
+        or Carp::croak "Unable to close filehandle: $!";
+}
+
+sub write_xlogfile
+{
+    my $entries = shift;
+    my $filename = shift;
+
+    open my $handle, '>', $filename
+        or Carp::croak "Unable to open '$filename' for writing: $!";
+
+    for my $entry (@$entries)
+    {
+        print {$handle} make_xlogline($entry, 1), "\n"
+            or Carp::croak "Error occurred during print: $!";
+    }
+
+    close $handle
+        or Carp::croak "Unable to close filehandle: $!";
+
+    return;
+}
+
+sub make_xlogline
+{
+    my $input = shift;
+    my $correct = shift;
+    my @fields;
+
+    # code duplication is bad, but not that much is being duplicated
+    if (!$correct)
+    {
+        while (my ($key, $value) = each %$input)
+        {
+            if ($key =~ /([=:\n])/)
+            {
+                my $bad = $1; $bad = $bad eq "\n" ? "newline" : "'$bad'";
+                $key =~ s/\n/\\n/;
+                Carp::croak "Key '$key' contains invalid character: $bad.";
+            }
+
+            if ($value =~ /([:\n])/)
+            {
+                my $bad = $1; $bad = $bad eq "\n" ? "newline" : "'$bad'";
+                $key =~ s/\n/\\n/; $value =~ s/\n/\\n/;
+                Carp::croak "Value '$value' (of key '$key') contains invalid character: $bad.";
+            }
+
+            push @fields, "$key=$value";
+        }
+    }
+    elsif ($correct == -1)
+    {
+        while (my ($key, $value) = each %$input)
+        {
+            push @fields, "$key=$value";
+        }
+    }
+    elsif ($correct == 1)
+    {
+        while (my ($key, $value) = each %$input)
+        {
+            $key   =~ y/\n:=/ __/;
+            $value =~ y/\n:/ _/;
+            push @fields, "$key=$value";
+        }
+    }
+
+    return join ':', @fields;
+}
+
+1;
+
+__END__
 
 =head1 NAME
 
 Text::XLogfile - read and write xlogfiles
-
-=head1 VERSION
-
-Version 0.05 released ???
-
-=cut
-
-our $VERSION = '0.05';
 
 =head1 SYNOPSIS
 
@@ -70,8 +184,6 @@ grammar:
 xlogfiles are used in the NetHack and Crawl communities. CSV is too
 ill-defined. XML is too heavyweight. I'd say the same for YAML and JSON.
 
-=cut
-
 =head1 FUNCTIONS
 
 =head2 read_xlogfile FILENAME => ARRAY OF HASHREFS
@@ -79,20 +191,6 @@ ill-defined. XML is too heavyweight. I'd say the same for YAML and JSON.
 Takes a file and parses it as an xlogfile. If any IO error occurs in reading
 the file, an exception is thrown. If any error occurs in parsing an xlogline,
 then an empty hash will be returned in its place.
-
-=cut
-
-sub read_xlogfile
-{
-    my $filename = shift;
-    my @entries;
-
-    each_xlogline($filename => sub {
-        push @entries, $_;
-    });
-
-    return @entries;
-}
 
 =head2 parse_xlogline STRING => HASHREF
 
@@ -104,53 +202,12 @@ line is a single field.
 Since xlogfiles are an inherently line-based format, the input will be chomped.
 Any other newlines in the input will be incuded in the output.
 
-=cut
-
-sub parse_xlogline
-{
-    my $input = shift;
-    my $output = {};
-
-    chomp $input;
-
-    my @fields = split /:/, $input;
-
-    for my $field (@fields)
-    {
-        my ($key, $value) = split /=/, $field;
-        return if !defined($value); # no = found
-
-        $output->{$key} = $value;
-    }
-
-    return $output;
-}
-
 =head2 each_xlogline FILENAME, CODE
 
 This runs the code reference for each xlogline in the given file. The xlogline
 will be passed in as a hashref and as C<$_>. If any IO error occurs in reading
 the file, an exception is thrown. If any error occurs in parsing an xlogline,
 then an empty hash will be used in its place.
-
-=cut
-
-sub each_xlogline {
-    my $filename = shift;
-    my $code = shift;
-
-    open my $handle, '<', $filename
-        or Carp::croak "Unable to read $filename for reading: $!";
-
-    while (<$handle>)
-    {
-        local $_ = parse_xlogline($_) || {};
-        $code->($_);
-    }
-
-    close $handle
-        or Carp::croak "Unable to close filehandle: $!";
-}
 
 =head2 write_xlogfile ARRAYREF OF HASHREFS, FILENAME
 
@@ -159,28 +216,6 @@ exception. If any error in making the xlogline occurs (see the documentation
 of C<make_xlogline>), it will automatically be corrected.
 
 Returns no useful value.
-
-=cut
-
-sub write_xlogfile
-{
-    my $entries = shift;
-    my $filename = shift;
-
-    open my $handle, '>', $filename
-        or Carp::croak "Unable to open '$filename' for writing: $!";
-
-    for my $entry (@$entries)
-    {
-        print {$handle} make_xlogline($entry, 1), "\n"
-            or Carp::croak "Error occurred during print: $!";
-    }
-
-    close $handle
-        or Carp::croak "Unable to close filehandle: $!";
-
-    return;
-}
 
 =head2 make_xlogline HASHREF[, INTEGER] => STRING
 
@@ -220,56 +255,6 @@ will be turned into a single space character.
 
 =back
 
-=cut
-
-sub make_xlogline
-{
-    my $input = shift;
-    my $correct = shift;
-    my @fields;
-
-    # code duplication is bad, but not that much is being duplicated
-    if (!$correct)
-    {
-        while (my ($key, $value) = each %$input)
-        {
-            if ($key =~ /([=:\n])/)
-            {
-                my $bad = $1; $bad = $bad eq "\n" ? "newline" : "'$bad'";
-                $key =~ s/\n/\\n/;
-                Carp::croak "Key '$key' contains invalid character: $bad.";
-            }
-
-            if ($value =~ /([:\n])/)
-            {
-                my $bad = $1; $bad = $bad eq "\n" ? "newline" : "'$bad'";
-                $key =~ s/\n/\\n/; $value =~ s/\n/\\n/;
-                Carp::croak "Value '$value' (of key '$key') contains invalid character: $bad.";
-            }
-
-            push @fields, "$key=$value";
-        }
-    }
-    elsif ($correct == -1)
-    {
-        while (my ($key, $value) = each %$input)
-        {
-            push @fields, "$key=$value";
-        }
-    }
-    elsif ($correct == 1)
-    {
-        while (my ($key, $value) = each %$input)
-        {
-            $key   =~ y/\n:=/ __/;
-            $value =~ y/\n:/ _/;
-            push @fields, "$key=$value";
-        }
-    }
-
-    return join ':', @fields;
-}
-
 =head1 AUTHOR
 
 Shawn M Moore, C<< <sartak at gmail.com> >>
@@ -295,6 +280,4 @@ This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
 
 =cut
-
-1;
 

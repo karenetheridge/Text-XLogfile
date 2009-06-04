@@ -1,4 +1,3 @@
-#!perl
 package Text::XLogfile;
 use strict;
 use warnings;

@@ -5,8 +5,7 @@ use Test::More tests => 2;
 use Text::XLogfile ':all';
 use File::Temp qw/tempfile/;
 
-my @xlogfile =
-(
+my @xlogfile = (
     { name => 'Lawrence',  role => 'Computer Scientist', gender => 'Mal' },
     { name => 'Catherine', role => 'Death Queen',        gender => 'Fem' },
     { name => 'Fred',      role => 'Zombie',             gender => 'Mal' },
@@ -23,8 +22,7 @@ write_xlogfile(\@xlogfile, $filename);
         or BAIL_OUT("Unable to open '$filename' for reading: $!");
 
     my @people;
-    while (<$handle>)
-    {
+    while (<$handle>) {
         push @people, parse_xlogline($_);
     }
 

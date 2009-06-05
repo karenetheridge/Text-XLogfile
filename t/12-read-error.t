@@ -11,8 +11,7 @@ name=Catherine:roleDeath Queen:gender=Fem
 name=Fred:role=Zombie:gender=Mal
 XLOGFILE
 
-my @xlogfile =
-(
+my @xlogfile = (
     { name => 'Lawrence',  role => 'Computer Scientist', gender => 'Mal' },
     { },
     { name => 'Fred',      role => 'Zombie',             gender => 'Mal' },

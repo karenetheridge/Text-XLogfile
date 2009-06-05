@@ -6,8 +6,7 @@ use Text::XLogfile ':all';
 
 my $xlogline = "foo=bar:baz=quux:deli=cious";
 
-my $hash =
-{
+my $hash = {
     baz  => 'quux',
     deli => 'cious',
     foo  => 'bar',

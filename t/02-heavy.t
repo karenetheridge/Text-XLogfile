@@ -6,8 +6,7 @@ use Text::XLogfile ':all';
 
 my $fastest_xlogline = 'crga0=Wiz Elf Fem Cha:deathlev=-5:num=204:unsure=0:points=896462:gold=740:turns=15494:align0=Cha:race=Elf:endtime=204:kills=697:deathdnum=7:death=ascended:gender=Fem:conduct=180:maxhp=107:hp=107:uid=1031:align=Cha:version=3.4.3:deaths=0:birthdate=20070601:name=Eidolos:ascended=1:deathdate=20070601:gender0=Fem:maxlvl=47:role=Wiz:conducts=2:dumplog=Eidolos.20070601-053502.txt';
 
-my $fastest_hash =
-{
+my $fastest_hash = {
     align     => 'Cha',
     align0    => 'Cha',
     ascended  => 1,

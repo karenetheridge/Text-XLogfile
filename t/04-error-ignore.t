@@ -11,8 +11,7 @@ my $newline_key   = { "a\nb" => 1 };
 my $colon_value   = { 1 => 'a:b'  };
 my $newline_value = { 1 => "a\nb" };
 
-for
-(
+for (
     [$equals_key,    "a=b=1"],
     [$colon_key,     "a:b=1"],
     [$newline_key,   "a\nb=1"],

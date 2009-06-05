@@ -8,8 +8,7 @@ our @EXPORT_OK = qw(read_xlogfile parse_xlogline each_xlogline write_xlogfile ma
 our %EXPORT_TAGS = (all => \@EXPORT_OK);
 our $VERSION = '0.05';
 
-sub read_xlogfile
-{
+sub read_xlogfile {
     my $filename = shift;
     my @entries;
 
@@ -20,8 +19,7 @@ sub read_xlogfile
     return @entries;
 }
 
-sub parse_xlogline
-{
+sub parse_xlogline {
     my $input = shift;
     my $output = {};
 
@@ -29,8 +27,7 @@ sub parse_xlogline
 
     my @fields = split /:/, $input;
 
-    for my $field (@fields)
-    {
+    for my $field (@fields) {
         my ($key, $value) = split /=/, $field;
         return if !defined($value); # no = found
 
@@ -47,8 +44,7 @@ sub each_xlogline {
     open my $handle, '<', $filename
         or Carp::croak "Unable to read $filename for reading: $!";
 
-    while (<$handle>)
-    {
+    while (<$handle>) {
         local $_ = parse_xlogline($_) || {};
         $code->($_);
     }
@@ -57,16 +53,14 @@ sub each_xlogline {
         or Carp::croak "Unable to close filehandle: $!";
 }
 
-sub write_xlogfile
-{
+sub write_xlogfile {
     my $entries = shift;
     my $filename = shift;
 
     open my $handle, '>', $filename
         or Carp::croak "Unable to open '$filename' for writing: $!";
 
-    for my $entry (@$entries)
-    {
+    for my $entry (@$entries) {
         print {$handle} make_xlogline($entry, 1), "\n"
             or Carp::croak "Error occurred during print: $!";
     }
@@ -77,26 +71,21 @@ sub write_xlogfile
     return;
 }
 
-sub make_xlogline
-{
+sub make_xlogline {
     my $input = shift;
     my $correct = shift;
     my @fields;
 
     # code duplication is bad, but not that much is being duplicated
-    if (!$correct)
-    {
-        while (my ($key, $value) = each %$input)
-        {
-            if ($key =~ /([=:\n])/)
-            {
+    if (!$correct) {
+        while (my ($key, $value) = each %$input) {
+            if ($key =~ /([=:\n])/) {
                 my $bad = $1; $bad = $bad eq "\n" ? "newline" : "'$bad'";
                 $key =~ s/\n/\\n/;
                 Carp::croak "Key '$key' contains invalid character: $bad.";
             }
 
-            if ($value =~ /([:\n])/)
-            {
+            if ($value =~ /([:\n])/) {
                 my $bad = $1; $bad = $bad eq "\n" ? "newline" : "'$bad'";
                 $key =~ s/\n/\\n/; $value =~ s/\n/\\n/;
                 Carp::croak "Value '$value' (of key '$key') contains invalid character: $bad.";
@@ -105,17 +94,13 @@ sub make_xlogline
             push @fields, "$key=$value";
         }
     }
-    elsif ($correct == -1)
-    {
-        while (my ($key, $value) = each %$input)
-        {
+    elsif ($correct == -1) {
+        while (my ($key, $value) = each %$input) {
             push @fields, "$key=$value";
         }
     }
-    elsif ($correct == 1)
-    {
-        while (my ($key, $value) = each %$input)
-        {
+    elsif ($correct == 1) {
+        while (my ($key, $value) = each %$input) {
             $key   =~ y/\n:=/ __/;
             $value =~ y/\n:/ _/;
             push @fields, "$key=$value";

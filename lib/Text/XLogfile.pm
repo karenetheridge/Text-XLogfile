@@ -244,14 +244,6 @@ will be turned into a single space character.
 
 Shawn M Moore, C<< <sartak at gmail.com> >>
 
-=head1 BUGS
-
-No known bugs.
-
-Please report any bugs through RT: email 
-C<bug-text-xlogfile at rt.cpan.org>, or browse to
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Text-XLogfile>.
-
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to Aardvark Joe for coming up with the xlogfile format. It's much

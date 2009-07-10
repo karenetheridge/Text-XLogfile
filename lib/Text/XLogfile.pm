@@ -2,7 +2,7 @@ package Text::XLogfile;
 use strict;
 use warnings;
 use base 'Exporter';
-use Carp;
+use Carp 'croak';
 
 our @EXPORT_OK = qw(read_xlogfile parse_xlogline each_xlogline write_xlogfile make_xlogline);
 our %EXPORT_TAGS = (all => \@EXPORT_OK);
@@ -42,7 +42,7 @@ sub each_xlogline {
     my $code = shift;
 
     open my $handle, '<', $filename
-        or Carp::croak "Unable to read $filename for reading: $!";
+        or croak "Unable to read $filename for reading: $!";
 
     while (<$handle>) {
         local $_ = parse_xlogline($_) || {};
@@ -50,7 +50,7 @@ sub each_xlogline {
     }
 
     close $handle
-        or Carp::croak "Unable to close filehandle: $!";
+        or croak "Unable to close filehandle: $!";
 }
 
 sub write_xlogfile {
@@ -58,15 +58,15 @@ sub write_xlogfile {
     my $filename = shift;
 
     open my $handle, '>', $filename
-        or Carp::croak "Unable to open '$filename' for writing: $!";
+        or croak "Unable to open '$filename' for writing: $!";
 
     for my $entry (@$entries) {
         print {$handle} make_xlogline($entry, 1), "\n"
-            or Carp::croak "Error occurred during print: $!";
+            or croak "Error occurred during print: $!";
     }
 
     close $handle
-        or Carp::croak "Unable to close filehandle: $!";
+        or croak "Unable to close filehandle: $!";
 
     return;
 }
@@ -82,13 +82,13 @@ sub make_xlogline {
             if ($key =~ /([=:\n])/) {
                 my $bad = $1; $bad = $bad eq "\n" ? "newline" : "'$bad'";
                 $key =~ s/\n/\\n/;
-                Carp::croak "Key '$key' contains invalid character: $bad.";
+                croak "Key '$key' contains invalid character: $bad.";
             }
 
             if ($value =~ /([:\n])/) {
                 my $bad = $1; $bad = $bad eq "\n" ? "newline" : "'$bad'";
                 $key =~ s/\n/\\n/; $value =~ s/\n/\\n/;
-                Carp::croak "Value '$value' (of key '$key') contains invalid character: $bad.";
+                croak "Value '$value' (of key '$key') contains invalid character: $bad.";
             }
 
             push @fields, "$key=$value";

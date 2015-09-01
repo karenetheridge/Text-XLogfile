@@ -8,7 +8,7 @@ use Carp 'croak';
 
 our @EXPORT_OK = qw(read_xlogfile parse_xlogline each_xlogline write_xlogfile make_xlogline);
 our %EXPORT_TAGS = (all => \@EXPORT_OK);
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 sub read_xlogfile {
     my $filename = shift;

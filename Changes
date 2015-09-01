@@ -1,6 +1,6 @@
 Revision history for Text-XLogfile
 
-{{$NEXT}}
+0.06    2015-09-01 02:16:35Z
         Modernize the tooling, fixing Module::Install problem (RT#66992)
 
 0.05    2009-07-10 07:06:15Z

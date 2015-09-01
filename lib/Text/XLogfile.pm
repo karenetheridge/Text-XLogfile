@@ -1,4 +1,6 @@
 package Text::XLogfile;
+# ABSTRACT: Read and write xlogfiles
+
 use strict;
 use warnings;
 use base 'Exporter';
@@ -114,11 +116,10 @@ sub make_xlogline {
 
 __END__
 
+=pod
+
+=for :header
 =for stopwords xlogfile xlogfiles xlogline
-
-=head1 NAME
-
-Text::XLogfile - read and write xlogfiles
 
 =head1 SYNOPSIS
 
@@ -244,21 +245,9 @@ will be turned into a single space character.
 
 =back
 
-=head1 AUTHOR
-
-Shawn M Moore, C<sartak@gmail.com>
-
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to Aardvark Joe for coming up with the xlogfile format. It's much
 better than NetHack's default logfile.
 
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2007-2009 Shawn M Moore.
-
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
-
 =cut
-

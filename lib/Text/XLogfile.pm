@@ -114,6 +114,8 @@ sub make_xlogline {
 
 __END__
 
+=for stopwords xlogfile xlogfiles xlogline
+
 =head1 NAME
 
 Text::XLogfile - read and write xlogfiles
@@ -166,6 +168,8 @@ grammar:
     key      <- [^:=\n]*
     value    <- [^:\n]*
 
+=for stopwords NetHack CSV
+
 xlogfiles are used in the NetHack and Crawl communities. CSV is too
 ill-defined. XML is too heavyweight. I'd say the same for YAML and JSON.
 
@@ -185,7 +189,7 @@ field with no C<=>. Lacking C<:> does not invalidate an xlogline; the entire
 line is a single field.
 
 Since xlogfiles are an inherently line-based format, the input will be chomped.
-Any other newlines in the input will be incuded in the output.
+Any other newlines in the input will be included in the output.
 
 =head2 each_xlogline FILENAME, CODE
 

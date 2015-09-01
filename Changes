@@ -3,19 +3,19 @@ Revision history for Text-XLogfile
 {{$NEXT}}
         Modernize the tooling, fixing Module::Install problem (RT#66992)
 
-0.05    Fri Jul 10 03:06:15 2009
+0.05    2009-07-10 07:06:15Z
         Modernize the dist
 
-0.04    Wed Mar 26 00:51:03 2008
+0.04    2008-03-26 04:51:03Z
         Document that we chomp input on parse_xlogline.
         each_xlogline function
 
-0.03    Sat Aug  4 01:44:29 2007
+0.03    2007-08-04 05:44:29Z
         More minor fixes.
 
-0.02    Sat Aug  4 00:31:15 2007
+0.02    2007-08-04 04:31:15Z
         Minor fixes.
 
-0.01    Fri Aug  3 22:03:17 2007
+0.01    2007-08-04 02:03:17Z
         First version, released on an unsuspecting world.
 
